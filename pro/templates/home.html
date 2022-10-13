@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'nav_side_bar.html' %}
+
+<div id="content-wrapper" class="wrapper mt-2 content-wrapper bg-white">
+    {% include 'message.html' %}
+    <div class="py-2">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="col-8">
+                        <form method="POST" name="formCreate" id="formCreate" enctype="multipart/form-data"
+                            action="{% url 'home' %}" data-ajax-error>
+                            {% csrf_token %}
+                            <div class="rounded bg-light shadow text-dark justify-content-center">
+                                <h2 class="text-center text-dark pt-2">Add Post</h2>
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-lg-10 col-md-10 col-sm-11">
+                                        <div class="form-outline mt-3">
+                                            <label class="form-label text-dark fw-semibold" for="txtPostName">Post
+                                                Name</label>
+                                            <input type="text" class="form-control" id="txtPostName"
+                                                value="{{input_data.name}}" name="txtPostName" />
+                                            <p class="text-danger" id="paraPostName"></p>
+                                        </div>
+
+                                        <!-- HIDDEN INPUT VALUE -->
+                                        <input type="hidden" name="hiddenUserId" id="hiddenUserId"
+                                            value="{{login_response.user_id}}">
+                                        <input type="hidden" name="hiddenIfPost" name="hiddenIfPost" value="if_post">
+                                        <input type="hidden" value="{{whole_data.username}}" id="hiddenUserName">
+
+                                        <div class="form-group col">
+                                            <label class="form-label text-dark fw-semibold" for="fileImage">Upload Image
+                                            </label>
+                                            <input type="file" accept="image/*" class="dropify form-control hidden"
+                                                step="any" id="fileImage" name="fileImage" />
+                                            <p class="text-danger" id="paraPostImage"></p>
+                                        </div>
+
+                                        <div class="form-outline mt-3 col">
+                                            <label class="form-label text-dark fw-semibold"
+                                                for="txtDescription">Description</label>
+                                            <input type="text" class="form-control" step="any"
+                                                value="{{input_data.igst}}" id="txtDescription" name="txtDescription" />
+                                        </div>
+                                        <!-- Image Preview Box -->
+                                        <!-- <div class="d-flex align-items-center">
+                                    <div id="divImgPreview" class="pt-4 mt-3 order-last">
+                                        <img src="static/css/default.jpg" id="imgPreview" name="imgPreview"
+                                        alt="preview image" class="img-thumbnail img-fluid img-fluid mt-4">
+                                    </div>
+                                </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-outline text-center fw-semibold">
+                                    <!-- onclick="return ValidateImage()" -->
+                                    <button type="submit" id="btnSave" onclick="return ValidatePostForm()"
+                                        class="mb-2 mt-4 w-50 px-3 btn btn-md btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container-fluid bg-white">
+        <h2 class="mt-4 text-center text-dark">Your Post</h2>
+        <div class="d-flex flex-wrap justify-content-center">
+            <!-- Team Member 1 -->
+            {% for post in whole_data.post_details %}
+            <div class="col-lg-3 col-md-6 col-sm-6 my-2 mx-1 d-flex flex-column">
+                <div class="card border-0 shadow-home">
+                    <img src="http://127.0.0.1:8000/media/{{post.image}}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0">{{post.post_name}}</h5>
+                        <div class="card-text text-black-50">{{post.description}}</div>
+                        <div class="">
+                            <div>
+                                {% if post.status == 'Approved' %}
+                                <p class="text-right fa-solid fa-thumbs-up text-success"> Approved</p>
+                                {% elif post.status == 'Rejected' %}
+                                <p class="text-right fa-solid fa-thumbs-down text-danger"> Rejected</p>
+                                {% else %}
+                                <p class="text-right fa-solid fa-pen-to-square text-warning"> Pending</p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if post.status == 'Rejected' %}
+                                <div class="d-flex justify-content-center">
+                                    <label class="text-warning" for="desc">Reason:</label>
+                                    <p class="px-2 text-danger">{{post.reason}}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+<!-- Gallery -->
+<div class="row">
+    {% for post in whole_data.post_details %}
+    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+        <img src="http://127.0.0.1:8000/media/{{post.image}}" class="w-75 shadow-1-strong rounded mb-4"
+            alt="Boat on Calm Water" />
+
+    </div>
+    {% endfor %}
+</div>
+
+<!-- {% if post.status == Rejected %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-thumbs-up text-success"> </p>
+{% elif post.status == Approved %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-thumbs-down text-danger"> Rejected</p>
+{% else %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-pen-to-square text-warning"> Pending
+</p>
+{% endif %} -->

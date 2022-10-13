@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'message.html' %}
+
+<div>
+    <div class="pt-5 reg-and-log">
+        <div class="container container-sm container-md container-lg">
+            <div class="d-flex justify-content-center">
+                <div class="pt-4 col-sm-2 col-lg-4 col-md-6 ">
+                    <div id="divLoginContainer" class="mt-4 rounded bg-lg">
+                        <h3 class="text-dark text-center pt-4">Sign In</h3>
+                        <form id="formLogin" action="{% url 'login' %}" method="POST" class="m-4">
+                            {% csrf_token %}
+                            <div class="col-sm-12 col-md-12 col-lg-12 m-1 my-4">
+                                <label class="form-lable text-dark" for="txtUserName">User Name</label>
+                                <input type="text" class="form-control mt-2" name="txtUserName" id="txtUserName">
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 m-1 my-4">
+                                <label class="form-lable text-dark" for="loginPassword">Password</label>
+                                <input type="password" class="form-control mt-2" name="loginPassword"
+                                    id="loginPassword">
+                            </div>
+                            <input type="hidden" name="hiddenLogin" value="if_login">
+                            <div class="pb-2 text-center">
+                                <button type="submit" class="btn btn-md btn-primary btn-primary" name="btnLogin"
+                                    id="btnLogin">Login</button>
+                                <p class="text-dark p-2">Don't have account?<a href="{% url 'register' %}">
+                                        Register!</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

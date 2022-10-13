@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'message.html' %}
+
+<div class="pt-4">
+    <div class="container container-sm container-md container-lg">
+        <div class="d-flex justify-content-center">
+            <div class="mt-4 col-sm-3 col-lg-4 col-md-6 rounded bg-lg" id="divRegister">
+                <h3 class="text-dark text-center pt-4">Sign Up</h3>
+                <form id="formRegister" action="{% url 'login' %}" method="POST" class="m-4">
+                    {% csrf_token %}
+                    <div id="divRegisterName" class="m-1 my-4">
+                        <label class="form-lable text-dark" for="txtRegisterName">User Name</label>
+                        <input type="text" class="form-control mt-2" name="txtRegisterName" id="txtRegisterName">
+                        <p id="paraRegName" class="text-danger"></p>
+                        {% if error %}
+                        <p id="paraRegNameError" class="text-danger">{{error.username|join:""}}</p>
+                        {% endif %}
+                    </div>
+                    <div id="divRegisterEmail" class="m-1 my-4">
+                        <label class="form-lable text-dark" for="txtRegisterEmail">Email</label>
+                        <input type="email" class="form-control mt-2" name="txtRegisterEmail" id="txtRegisterEmail">
+                        <p id="paraEmail" class="text-danger"></p>
+                    </div>
+                    <div id="divRegisterPassword" class="m-1 my-4">
+                        <label class="form-lable text-dark" for="RegisterPassword">Password</label>
+                        <input type="password" class="form-control mt-2" name="RegisterPassword" id="RegisterPassword">
+                        <p id="paraPass" class="text-danger"></p>
+                    </div>
+                    <input type="hidden" name="hiddenRegisterValue" id="hiddenRegisterValue" value="if_register">
+                    <div id="divRegisterConfirmPassword" class="col-sm-12 col-md-12 col-lg-12 m-1 my-4">
+                        <label class="form-lable text-dark" for="RegisterConfirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control mt-2" name="RegisterConfirmPassword"
+                            id="RegisterConfirmPassword">
+                        <p id="paraConPass" class="text-danger"></p>
+                    </div>
+                    <div class=" text-center">
+                        <button type="submit" class="w-100 btn btn-md btn-primary" onclick="return ValidateRegister()"
+                            name="btnRegister" id="btnRegister">Register</button>
+                        <p class="text-dark pt-2 mb-n4 pb-n4">Already have account?<a href="{% url 'login' %}"> Login!</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

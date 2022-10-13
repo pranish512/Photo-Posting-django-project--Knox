@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'sidebar.html' %}
+{% include 'message.html' %}
+
+<form method="POST" name="formCreate" id="formCreate" enctype="multipart/form-data" action="{% url 'home' %}"
+    data-ajax-error>
+    {% csrf_token %}
+    <div class="d-flex justify-content-lg-center justify-content-md-center justify-content-sm-center">
+        <div class="container-lg container-md">
+            <div class="rounded bg-dark text-white">
+                <h2 class="text-center text-light ">Add Post</h2>
+                <div class="d-flex">
+                    <div class="m-3 mb-3 col-lg-6 col-md-6 col-sm-6 order-first">
+                        <div class="form-outline mt-3 col">
+                            <label class="form-label" for="txtPostName">Post Name</label>
+                            <input type="text" class="form-control" id="txtPostName" value="{{input_data.name}}"
+                                name="txtPostName" />
+                            <p class="text-danger" id="paraPostName"></p>
+                        </div>
+
+                        <!-- HIDDEN INPUT VALUE -->
+                        <input type="hidden" name="hiddenUserId" id="hiddenUserId" value="{{login_response.user_id}}">
+                        <input type="hidden" name="hiddenIfPost" name="hiddenIfPost" value="if_post">
+                        <input type="hidden" value="{{whole_data.username}}" id="hiddenUserName">
+
+                        <div class="form-outline col mt-2">
+                            <label class="form-label" for="fileImage">Upload Image </label>
+                            <input type="file" accept="image/*" class="form-control hidden" step="any" id="fileImage"
+                                name="fileImage" />
+                            <p class="text-danger" id="paraPostImage"></p>
+                        </div>
+
+                        <div class="form-outline mt-3 col">
+                            <label class="form-label" for="txtDescription">Description</label>
+                            <input type="text" class="form-control" step="any" value="{{input_data.igst}}"
+                                id="txtDescription" name="txtDescription" />
+                        </div>
+                    </div>
+                    <!-- Image Preview Box -->
+                    <div id="divImgPreview" class="pt-4 mt-3 order-last">
+                        <img src="static/css/default.jpg" id="imgPreview" name="imgPreview" alt="preview image"
+                            class="img-thumbnail img-fluid img-fluid mt-4">
+                    </div>
+                </div>
+                <div class="form-outline text-center">
+                    <!-- onclick="return ValidateImage()" -->
+                    <button type="submit" id="btnSave" onclick="return ValidatePostForm()"
+                        class="mb-2 mt-4 px-3 btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% for post in whole_data.post_details %}
+<div class="">
+    <div class="d-flex justify-content-center col-auto border-0 mb-2">
+        <div class="card">
+            <a><img src="{% static 'css/Tatra.jpg' %}" alt="post image" class="card-img-top" width="313"
+                    height="208"></a>
+
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <!-- <h5 class="text-uppercase text-muted fw-semibold mb-2" data-bs-toggle="tooltip">                
+                </h5> -->
+
+                    <!-- Dropdown -->
+                    <div class="d-flex justify-content-end" data-bs-toggle="tooltip">
+                        <a class="dropdown-toggle no-arrow text-muted" role="button" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="./task-details.html">Edit</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript: void(0);">Delete</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <span class="dropdown-header">OTHER ACTIONS</span>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript: void(0);">Add flag</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <a class="h4 text-body card-title d-inline-block" data-bs-toggle="tooltip">Data
+                    POST IMAGE</a>
+            </div>
+
+            <div class="card-footer border-0">
+                <div class="row justify-content-between align-items-center">
+
+                    <p class="text-right fa-solid fa-thumbs-up text-success"> </p>
+                </div> <!-- / .row -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+<!-- {% if post.status == Rejected %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-thumbs-up text-success"> </p>
+{% elif post.status == Approved %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-thumbs-down text-danger"> Rejected</p>
+{% else %}
+<p style="margin-left: 14rem; margin-top: -2.3rem;" class="text-right fa-solid fa-pen-to-square text-warning"> Pending
+</p>
+{% endif %} -->

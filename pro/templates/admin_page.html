@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'nav_side_bar.html' %}
+{% include 'message.html' %}
+
+
+<div id="content-wrapper" class="wrapper mt-2 content-wrapper">
+    <h2 class="text-light text-center">Admin Panel</h2>
+
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <div class="col-lg-11 col-md-11 col-sm-12">
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h3 class="card-title mb-0"> Checked Status </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid-margin">
+                            <div class="">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body tabs-menu-body border-0 pt-0">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab5">
+                                                <div class="table-responsive">
+                                                    <div id="data-table_wrapper"
+                                                        class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <label id="updateRow" style="display: none"></label>
+                                                                <table id="tableAdminControl"
+                                                                    class="table table-bordered text-nowrap mb-0 dataTable no-footer"
+                                                                    role="grid" aria-describedby="data-table_info">
+                                                                    <thead class="border-top">
+                                                                        <tr role="row">
+                                                                            <th hidden
+                                                                                class="bg-transparent border-bottom-0 text-center sorting_disabled"
+                                                                                style="width: 90.2344px;" rowspan="1"
+                                                                                colspan="1" aria-label="Tracking Id">
+                                                                                S.No
+                                                                            </th>
+                                                                            <th class="bg-transparent border-bottom-0 text-center sorting"
+                                                                                tabindex="0" aria-controls="data-table"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label=" Product: activate to sort column ascending"
+                                                                                style="width: 118.266px;"> Post Name
+                                                                            </th>
+                                                                            <th class="bg-transparent border-bottom-0 text-center sorting"
+                                                                                tabindex="0" aria-controls="data-table"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label=" Customer: activate to sort column ascending"
+                                                                                style="width: 88.2812px;"> Post
+                                                                                image
+                                                                            </th>
+                                                                            <th class="bg-transparent border-bottom-0 text-center sorting"
+                                                                                tabindex="0" aria-controls="data-table"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label=" Date: activate to sort column ascending"
+                                                                                style="width: 61.0781px;">
+                                                                                Description
+                                                                            </th>
+                                                                            <th class="bg-transparent border-bottom-0 text-center sorting_disabled"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label=" Amount"
+                                                                                style="width: 70.0781px;"> Approve
+                                                                            </th>
+                                                                            <th class="bg-transparent border-bottom-0 text-center sorting_disabled"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label=" Amount"
+                                                                                style="width: 70.0781px;"> Reject
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for value in admin_table %}
+                                                                        <tr class="border-bottom odd">
+                                                                            <td hidden class="text-center">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <h6 class="mb-0 fs-14 fw-semibold">
+                                                                                        {{ forloop.counter }}</h6>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ms-3 mt-0 mt-sm-2 d-block">
+                                                                                    <h6
+                                                                                        class="mb-0 fs-14 fw-semibold text-center">
+                                                                                        {{value.post_name}}</h6>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div
+                                                                                    class="mt-0 my-auto mt-sm-3 d-block">
+                                                                                    <img class="mb-0"
+                                                                                        src="{{value.image}}"
+                                                                                        alt="image" width="90px"
+                                                                                        height="70px">
+
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center"><span
+                                                                                    class="mt-sm-2 d-block">30 Aug
+                                                                                    {{value.description}}</span>
+                                                                            </td>
+
+                                                                            <td class="text-center text-success">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <form
+                                                                                        action="{% url 'approvereject' value.post_id %}"
+                                                                                        method="POST">
+                                                                                        {% csrf_token %}
+                                                                                        <input type="hidden"
+                                                                                            name="hiddenApprove"
+                                                                                            value="Approved">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-success">Approve</button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </td>
+
+                                                                            <td class="text-center text-danger">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <button type="submit"
+                                                                                        data-bs-toggle="modal"
+                                                                                        onclick="return idForRejection('{{value.post_id}}')"
+                                                                                        data-bs-target="#rejectReasonModal"
+                                                                                        class="btn btn-danger">Reject</button>
+                                                                                </div>
+                                                                            </td>
+
+                                                                        </tr>
+                                                                        {% endfor %}
+
+                                                                        {% for value in admin_table_foot %}
+                                                                        <tr class="border-bottom odd">
+                                                                            <td hidden class="text-center">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <h6 class="mb-0 fs-14 fw-semibold">
+                                                                                        {{ forloop.counter }}</h6>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="ms-3 mt-0 mt-sm-2 d-block">
+                                                                                    <h6
+                                                                                        class="mb-0 fs-14 fw-semibold text-center">
+                                                                                        {{value.post_name}}</h6>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div
+                                                                                    class="mt-0 my-auto mt-sm-3 d-block">
+                                                                                    <img class="mb-0"
+                                                                                        src="{{value.image}}"
+                                                                                        alt="image" width="90px"
+                                                                                        height="70px">
+
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center"><span
+                                                                                    class="mt-sm-2 d-block">30 Aug
+                                                                                    {{value.description}}</span>
+                                                                            </td>
+                                                                            {% if value.status == 'Approved' %}
+                                                                            <td colspan="2"
+                                                                                class="text-center text-success">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <h6 class="mb-0 fs-14 fw-semi">
+                                                                                        {{value.status}}</h6>
+                                                                                </div>
+                                                                            </td>
+                                                                            {% elif value.status == 'Rejected' %}
+                                                                            <td colspan="2"
+                                                                                class="text-center text-danger">
+                                                                                <div class="mt-0 mt-sm-2 d-block">
+                                                                                    <h6 class="mb-0 fs-14 fw-semibold">
+                                                                                        {{value.status}}</h6>
+                                                                                    <p>{{value.reason}}</p>
+                                                                                </div>
+                                                                            </td>
+                                                                            {% endif %}
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <!-- SHOWING  1 to 8 of 8 entries -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="rejectReasonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reason For Rejection</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formRejectionReason" method="POST">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <input type="hidden" name="hiddenReject" value="Rejected">
+                        <textarea class="form-control" name="txtReason" id="txtReason" cols="30" rows="7"></textarea>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="{% url 'adminpage2' %}" type="button" class="btn btn-success">Admin page 2</a>
+
+</div>
+{% endblock %}
+
+
+<div class="mt-2 ml-5">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <div class="table-responsive">
+                <!-- <div class="col-lg-12 col-md-12 col-sm-12"> -->
+                <label id="updateRow" style="display: none"></label>
+                <table id="tableAdminControl" class="table mt-4 border border-5 rounded text-dark">
+                    <thead class="table-dark rounded">
+                        <tr class="">
+                            <th class="text-center" hidden>S.No</th>
+                            <th class="text-center">Post Name</th>
+                            <th class="text-center">Post Image</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Approve</th>
+                            <th class="text-center">Reject</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped bg-dark rounded bg-opacity-50 text-dark">
+                        {% for value in admin_table %}
+                        <!-- FOR PENDING POSTS!!!! -->
+                        <tr class="container-fluid text-light justify-content-center">
+                            <td class="text-center" hidden></td>
+                            <td class="text-center">{{value.post_name}}</td>
+                            <td class="text-center"> <img src="{{value.image}}" alt="image" width="90px"
+                                    height="60px">
+                            </td>
+                            <td class="text-center">{{value.description}}</td>
+                            <td class="text-center">
+                                <form action="{% url 'approvereject' value.post_id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="hiddenApprove" value="Approved">
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                </form>
+                            </td>
+                            <td class="p-3">
+                                <button type="submit" data-bs-toggle="modal"
+                                    onclick="return idForRejection('{{value.post_id}}')"
+                                    data-bs-target="#rejectReasonModal" class="btn btn-danger">Reject</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% for value in admin_table_foot %}
+                        <!-- FOR ACTION DONE POSTS!!!! -->
+                        <tr class="container-fluid text-light justify-content-center">
+                            <td class="text-center" hidden>{{ forloop.counter }}</td>
+                            <td class="text-center">{{value.post_name}}</td>
+                            <td class="text-center"> <img src="{{value.image}}" alt="image" width="90px"
+                                    height="60px">
+                            </td>
+                            <td class="text-center">{{value.description}}</td>
+                            <td class="d-none"></td>
+                            {% if value.status == 'Approved' %}
+                            <td class="text-success" colspan="2" style="text-shadow: 1px 1px rgb(24, 245, 4);">
+                                <h5>{{value.status}}</h5>
+                            </td>
+                            {% elif value.status == 'Rejected' %}
+                            <td class="text-danger" colspan="2" style="text-shadow: 1px .5px rgb(255, 61, 12);">
+                                <div>
+                                    <h5>{{value.status}}</h5>
+                                    <p>{{value.reason}}</p>
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</div>

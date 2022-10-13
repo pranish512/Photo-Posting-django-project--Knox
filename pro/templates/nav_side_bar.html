@@ -1,0 +1,95 @@
+{% load static %}
+<!-- <div> -->
+
+<nav class="navbar d-flex justify-content-between fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <div class="d-flex">
+            <button class="btn btn-primary mt-2" id="sidebarToggle"><i class="fa fa-align-left fa-lg"></i></button>&nbsp;&nbsp;
+            <h5 class="text-light mt-4" id="navbarUserName"></h5>
+        </div>
+
+        <ul>
+            <li>
+                <div class="d-flex position-absolute mt-4 start-50 translate-middle mt-2 mr-5">
+                    <img src="{% static 'image/just-logo.png' %}" width="40px" height="40px" alt="">&nbsp;
+                    <a class="brand text-decoration-none h3 text-white" href="#">
+                        NavBar</a>
+                </div>
+            </li>
+        </ul>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-flex align-items-center">
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto my-auto mx-2 mb-2 mb-lg-0">
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <span class="ml-n2 input-group-text text-dark fa-solid fa-magnifying-glass"></span>
+                </form>
+                <ul class="navbar-nav mx-2">
+                    <li class="nav-item">
+                        <a class="nav-link fa fa-home" href="#"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fa-solid fa-expand" href="#"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fa-regular fa-moon" href="#"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fa fa-sign-out" href="{% url 'logout' %}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link fa fa-gear navSettingsBtn"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- SIDE BAR!!!!! -->
+<nav style="z-index: 1000;" id="sidebarID" class="sidenav col-lg-2 col-md-2 col-sm-2 sidebar-hide">
+    <div>
+        <ul>
+            <div class="d-flex justify-content-center mt-2">
+                <img src="{% static 'image/just-logo.png' %}" width="60px" height="60px" alt="sidebar Logo">
+            </div>
+        </ul>
+    </div>
+    <div>
+        <ul class="mt-4">
+            <li><span class="fa fa-home"></span> Home</li>
+            <li><span class="fa-regular fa-address-card"></span> About</li>
+            <li class="sideShow1"><span class="fa-regular fa-sun"></span>
+                Tools <span class="fa-solid fa-caret-down"></span>
+                <ul class="sidelink side_hide">
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Pencil</a></li>
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Move</a></li>
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Marker</a></li>
+                </ul>
+            </li>
+            <li class="sideShow2"><span class="fa-solid fa-tachograph-digital"></span>
+                Theme <span class="fa-solid fa-caret-down"></span>
+                <ul class="sidelink side_hide">
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Light</a></li>
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Dark</a></li>
+                    <li><span class="fa-solid fa-circle-dot"></span> <a href="#">Default</a></li>
+                </ul>
+            </li>
+            <li><span class="fa-solid fa-phone"></span> Contact</li>
+            <a class="text-decoration-none" href="{% url 'feed' %}">
+                <li><span class="fa fa-file-image-o"></span> Feed Page</li>
+            </a>
+            <li><span class="fa-solid fa-book"></span> History</li>
+            <li><span class="fa-solid fa-database"></span> Data</li>
+        </ul>
+    </div>
+</nav>
+<!-- END OF SIDEBAR  -->
+<!-- </div> -->
